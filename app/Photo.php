@@ -12,4 +12,12 @@ class Photo extends Model
    * @var array
    */
   protected $fillable = ['name'];
+
+  /**
+   * Получить пользователя - владельца данного фото
+   */
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 }
