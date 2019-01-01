@@ -32,6 +32,19 @@
         </div>
       </div>
     </form>
+
+    @foreach ($photos as $photo)
+    <img src="{{asset('storage/images/'.$photo->name)}}" width="400" height="200">
+
+    <form action="{{ url('photo/'.$photo->id) }}" method="POST">
+      {{ csrf_field() }}
+      {{ method_field('DELETE') }}
+
+      <button type="submit" id="delete-photo-{{ $photo->id }}" class="btn btn-danger">
+        <i class="fa fa-btn fa-trash"></i>Удалить
+      </button>
+    </form>
+    @endforeach
   </div>
 
   <!-- TODO: Текущие задачи -->

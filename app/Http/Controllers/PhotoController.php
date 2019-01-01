@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Photo;
+
 class PhotoController extends Controller
 {
     /**
@@ -28,7 +30,10 @@ class PhotoController extends Controller
  */
 public function index(Request $request)
 {
-  return view('photos.index');
+  $photos = $request->user()->photos()->get();
+  return view('photos.index', [
+    'photos' => $photos,
+  ]);
 }
 
     /**
@@ -49,6 +54,24 @@ public function store(Request $request)
     'name' => $file->getClientOriginalName(),
   ]);
 
+  return redirect('/photos');
+}
+
+/**
+ * Уничтожить заданную задачу.
+ *
+ * @param  Request  $request
+* @param  Photo  $photo
+* @return Response
+*/
+public function destroy(Request $request, Photo $photo)
+{
+  $this->authorize('destroy', $photo);
+  // var_dump($photo->name);
+  // exit();
+  // unlink('public/images/'.$photo->name);
+  Storage::delete('public/images/'.$photo->name);
+  $photo->delete();
   return redirect('/photos');
 }
 }
