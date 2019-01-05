@@ -46,6 +46,6 @@
     </form>
     @endforeach
   </div>
-
-  <!-- TODO: Текущие задачи -->
+  <a href="#">Все картинки</a>
+ 
 @endsection
