@@ -23,6 +23,12 @@
         .fa-btn {
             margin-right: 6px;
         }
+        .del{
+            display: inline-block;
+        }
+        .del img{
+            float:left;
+        }
     </style>
 </head>
 <body id="app-layout">

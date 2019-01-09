@@ -6,6 +6,8 @@ use Storage;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Collection;
+
 use App\Http\Requests;
 
 use App\Photo;
@@ -30,7 +32,10 @@ class PhotoController extends Controller
  */
 public function index(Request $request)
 {
-  $photos = $request->user()->photos()->get();
+  $photos_nosort = $request->user()->photos()->get();
+  $photos = collect($photos_nosort);
+  // $photos = $photos->reverse();
+  $photos = $photos->sortByDesc('created_at');
   return view('photos.index', [
     'photos' => $photos,
   ]);
@@ -47,12 +52,16 @@ public function store(Request $request)
   // $this->validate($request, [
   //   'name' => 'required',
   // ]);
-	$file = $request->file('name');
-	Storage::put('public/images/'.$file->getClientOriginalName(),file_get_contents($request->file('name')->getRealPath()));
+  $file = $request->file('name');
+  if($file!=null){
+    if($file->getClientOriginalExtension() == 'jpg'||$file->getClientOriginalExtension() == 'png'||$file->getClientOriginalExtension() == 'jpeg'){
+	      Storage::put('public/images/'.$file->getClientOriginalName(),file_get_contents($request->file('name')->getRealPath()));
 
-  $request->user()->photos()->create([
-    'name' => $file->getClientOriginalName(),
-  ]);
+        $request->user()->photos()->create([
+            'name' => $file->getClientOriginalName(),
+        ]);
+    }
+  }  
 
   return redirect('/photos');
 }

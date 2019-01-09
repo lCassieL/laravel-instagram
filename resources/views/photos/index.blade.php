@@ -34,18 +34,20 @@
     </form>
 
     @foreach ($photos as $photo)
+    <div class="del">
     <img src="{{asset('storage/images/'.$photo->name)}}" width="400" height="200">
 
     <form action="{{ url('photo/'.$photo->id) }}" method="POST">
       {{ csrf_field() }}
       {{ method_field('DELETE') }}
 
-      <button type="submit" id="delete-photo-{{ $photo->id }}" class="btn btn-danger">
+      <button type="submit" id="delete-photo-{{ $photo->id }}" class="btn btn-danger special">
         <i class="fa fa-btn fa-trash"></i>Удалить
       </button>
     </form>
+    </div>
     @endforeach
   </div>
-  <a href="#">Все картинки</a>
+  <a href="{{URL::to('/').'/home'}}" class="btn btn-default">Все картинки</a>
  
 @endsection

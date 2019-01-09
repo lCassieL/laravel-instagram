@@ -25,7 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $photos = DB::table('photos')->get();
+        $photos_nosort = DB::table('photos')->get();
+        $photos = collect($photos_nosort);
+        $photos = $photos->sortByDesc('created_at');
         return view('home', ['photos'=> $photos]);
     }
 }
